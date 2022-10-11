@@ -245,7 +245,9 @@ I'm sure, You derived the media query in mind like below:
 }
 ```
 
-You can always see the `>=` operator because of Mobile-First approach. It will vary for the context we using.
+You can always see the `>=` operator because of Mobile-First approach. It will vary for the context we using. Explore the below codepen for how things getting disparate for every breakpoint:
+
+[CodePen Demo](https://codepen.io/preethi-dev/pen/rNvQPeg)
 
 ### New Syntax resolved the nuanced querying issue
 
