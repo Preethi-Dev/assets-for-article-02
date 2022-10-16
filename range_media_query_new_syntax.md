@@ -1,10 +1,10 @@
 # Range Media Queries' New Syntax
 
-In Media Queries Level 4 Specification, A new syntax was introduced in the media queries having range media features which utilizing common Mathematical comparison operators that make more sense syntactically as well as solve a niche problem. Before proceeding further, Let's need to familiarize with the concepts like Media Query, User Agent, Media Type, Media Features, Media Conditions, Media Query Modifier, and specifically Discrete and Range Media features. After strongly familiarizing with concepts will get clear concerning precisely where the changes are made.
+In Media Queries Level 4 Specification, A new syntax was introduced in the media queries having range media features that utilize common Mathematical comparison operators that make more sense syntactically as well as solve a niche problem. Before proceeding further, Let's need to familiarize with the concepts like Media Query, User Agent, Media Type, Media Features, Media Conditions, Media Query Modifier, and specifically Discrete and Range Media features. After strongly familiarizing with concepts will get clear concerning precisely where the changes are made.
 
-Media Queries enable displaying the document disparately in the user agent or device based on device type (_technically known as media type_) or specific characteristics (_technically known as media features_) of the user agent or device that the document is being displayed in.
+Media Queries enable displaying the document disparately in the user agent or device based on device type (_technically known as media type_) or specific characteristics of the user agent or device that the document is being displayed in (_technically known as media features_).
 
-> A user Agent is a computer program or software, characterized on behalf of the user. For instance, Web Browser - Every request made by a browser to the server must include User Agent HTTP Header known as UA String or User Agent String for self-identification. This UA String describes the request made from which browser, version number, and its host operating system.
+> A user Agent is a computer program or software, characterized on behalf of the user. For instance, Web Browser - Every request made by the user via a browser to the server must include User Agent HTTP Header known as UA String or User Agent String for self-identification. This UA String describes the request made from which browser, version number, and its host operating system.
 
 ## Syntax of media query
 
@@ -14,7 +14,7 @@ According to Media Queries Level 4 Specification, The syntax of a media query co
 - Zero or more Media Features
 - Media Query Modifier (optional)
 
-### Media Type
+## Media Type
 
 Media Type is a wide classification of user agent devices. In earlier days, A document uses disparate stylesheets based on the user agent's device type (means media type). But, It's not going well as wished.
 
@@ -26,7 +26,7 @@ Still, we can use
 - Print
 - Screen
 
-  _Recommended to use **media features** that determine certain aspects of the device required to query in media queries._
+  _Recommended to use **media features** that determine certain aspects or characteristics of the device required to query in media queries._
 
 ## Media Feature
 
@@ -34,75 +34,89 @@ According to W3C Specification, The concept of media queries originates from HTM
 
 Media feature mimics the CSS property alike,
 
-![Media feature]()
+![Media feature](./assets/images/media-feature.jpg)
 
 CSS Properties consist of the property name, colon, and then value. Likewise, the Media feature consists of the feature name, colon, and then value.
 
-![Example of Media Feature]()
+For Instance: The media feature `pointer` having the value of `coarse` test for whether the user pointer device has limited accuracy (_finger on a touchscreen_).
+
+![Example of Media Feature](./assets/images/media-feature-example.jpg)
 
 ### Differences between Media Feature and CSS Property
 
-CSS Property describes how the document will look like. Media features will determine the prerequisite of user agent or device or environment for document being displayed.
+CSS Property describes how the document will look like. Media features will determine the prerequisite of user agent or output device or environment for the document being displayed.
 
-Media features must be wrapped with parentheses and combined with logical operators('and', 'or') like `(color) and (min-width: 600px)` rather than separated by semicolon.
+Media features must be wrapped with parentheses and combined with logical operators (`and`, `or`) rather than separated by semicolons. For instance: The media feature `color` and `min-width` combined by logical operator `and`.
 
-A media feature can omit the colon and value. some media features may represent with its name only which often evaluated in boolean context. For example: `(color)` media feature.
+```
+(color) and (min-width: 600px)
+```
+
+A media feature can omit the colon and value. some media features may represent with their name only which is often evaluated in a boolean context. For example the `(color)` media feature.
+
+![media feature have name alone](./assets/images/feature-name-alone.jpg)
 
 > Boolean Context: If feature would be true for any value other than the value '0' or the keyword 'none', The media feature evaluates to true. Otherwise, it evaluates to false.
 
-CSS Properties can carry complex values. Though, Media features accept single values either a keyword or a number.
+CSS Properties can carry complex values. Though, Media features accept a single value either a keyword or a number.
 
 ### Media Feature Types
 
-In the specification, Every media feature defines its “type” as either “range” or “discrete” in its definition table.
+In the specification, Every media feature defines its “type” as either “discrete” or “range” in its definition table.
 
 **Discrete media features** accept the values as keywords or boolean numbers(0 and 1).
 
 Let's catch an instance for keyword values: Media feature `pointer` have three different values: `none`, `coarse`, and `fine`.
 
-- If `pointer` value set to `none` ensure whether the user interacts with the website by keyboard.
+- If the `pointer` value is set to `none` ensure whether the user interacts with the website by keyboard.
 
-- If `pointer` value set to `coarse` ensure primary input mechanism isn't very accurate.
+- If the `pointer` value is set to `coarse` ensure the primary input mechanism isn't very accurate.
 
 - If `pointer` will set to `fine` ensure whether the user interacts with the website by mouse or stylus.
 
-![keyword instance]()
+![keyword instance](./assets/images/keyword-example.jpg)
+
+Accordingly, The media feature `pointer` accepts a value from three keywords (`none`, `coarse`, and `fine`) only. That's why the media feature `pointer` falls under the category of "discrete" type.
 
 For the boolean instance, Media feature `monochrome` evaluate whether the user agent or output device displays shades of grey. If a device is a monochrome display, will return true otherwise return false.
 
-![boolean instance]()
+![boolean instance](./assets/images/boolean-example.jpg)
 
-An essential side note: There is no intrinsic order for discrete type and none of the values getting compared like 'less-than' or 'greater than'.
+> An essential side note: There is no intrinsic order for discrete type and none of the values getting compared like 'less-than' or 'greater than'.
 
-**Range media feature** takes value from a range. Range media features being true, When it matches the feature is greater than/less than/equal to the given value.
+**Range media feature** takes value from a range means any two values compared to see which is greater and which is lesser. Range media features being true, When it matches the feature is greater than/less than/equal to the given value.
 
-For instance, Required to style an element based on the viewport width. Styles getting disparate If width greater than 790px. We can write a range media features for this condition in two ways,
+For instance, Required to style an element based on the viewport width. Styles get disparate If the width greater than 790px. We can write a range media features for this condition in two ways,
 
 - A Standard Ancienter way of Range Media Feature.
 - A brand new syntax for range media features.
 
 ### A Standard Ancienter way of Range Media Feature:
 
-Use the `min-` and `max-` prefixes on the feature name. We could write a range media feature for above instance as,
+Use the `min-` and `max-` prefixes with the feature name.
+
+![min-width illustration](./assets/images/illustarte-min-width.jpg)
+
+We could write a range media feature for the above instance as,
 
 ```
 (min-width: 790px)
 ```
 
-The feature name `width` prefixed with `min-`, then colon with feature value. This `(min-width: 790px)` will true and apply disparate styles if screen's viewport size is greater than or equal to 790px. Otherwise, It evaluates to false and retain the default styles.
+The feature name `width` is prefixed with `min-`, then colon with the feature value. `(min-width: 790px)` will true and apply disparate styles if screen's viewport size is greater than or equal to 790px. Otherwise, It evaluates to false and retains the default styles.
 
-![min-width instance illustration]()
+![min-width instance illustration](./assets/images/min-width-example.jpg)
 
 - Use `min-` for greater than or equal to comparison.
 - Use `max-` for lesser than or equal to comparison.
 
-This will be works same for other range media features like `height`, `aspect-ratio`.
+This will work the same for other range media features like `height`, and `aspect-ratio`.
 
-We can combine one or more media features using boolean algebra(and, or, not). Chaining media features together using boolean algebra(and, or, not) will often known as **media condition**.
+We can combine one or more media features using boolean algebra(and, or, not). Chaining media features together using boolean algebra(and, or, not) will often be known as **media condition**.
 
-![media condition]()
+![media condition](./assets/images/media-condition.jpg)
 
-let's take an small profound use case:
+let's take a small profound use case:
 
 ```
 (min-width: 400px) and (max-width: 1000px)
@@ -110,11 +124,11 @@ let's take an small profound use case:
 
 The above query will return true if the device matches the screen's viewport width is greater than / equal to 400px and lesser than / equal to 1000px.
 
-- If We placed the `and` between media features, Query will return true if all the media features should be true.
+- If We placed the `and` between media features, The Query will return true if all the media features should be true.
 
-- If we placed the `or` between the media features, Query will return true if anyone of the feature should be true.
+- If we placed the `or` between the media features, The Query will return true if any one of the features should be true.
 
-`not` have some special charcterstics from others. This single keyword which alter the meaning of the media query. Prefixing the media query with `not` will negate the result of media query. Let's see a minimal usecase:
+`not` have some special characteristics from others. This single keyword which alters the meaning of the media query. Prefixing the media query with `not` will negate the result of a media query. Let's see a minimal use case:
 
 ```
 not ((color) or (hover))
@@ -122,9 +136,9 @@ not ((color) or (hover))
 
 will return true if the device was monochrome(not a color device) or didn't have hover capabilities. If we remove the prefix `not`, The meaning of the media query will change completely. According to the spec, A media query may optionally be prefixed by a single keyword that alters the meaning of the media query will be known as **media query modifier**.
 
-**Discrete** type media features do not accept `min-` or `max-` prefixes. Adding such a prefix to a discrete type media feature simply results in an unknown feature name. For example, (`min-grid: 1`) is invalid, because the media feature `grid` is a discrete type which evaluated in boolean context and will return 1 if the output device is a grid or bitmap. Otherwise, return 0. The media feature `grid` doesn’t accept the prefixes. (Even though the grid media feature appears to be numeric, as it accepts the values 0 and 1.)
+**Discrete** type media features do not accept `min-` or `max-` prefixes. Adding such a prefix to a discrete type media feature simply results in an unknown feature name. For example, (`min-grid: 1`) is invalid, because the media feature `grid` is a discrete type which evaluated in a boolean context and will return 1 if the output device is a grid or bitmap. Otherwise, return 0. The media feature `grid` doesn’t accept the prefixes. (Even though the grid media feature appears to be numeric, as it accepts the values 0 and 1.)
 
-In boolean context, The media features are evaluated to `0` or `1` rather than greater than / lesser than. So, There is no need of range prefixes. In simple terms, Attempting to evaluate a min/max prefixed media feature in a boolean context is invalid and a syntax error.
+In a boolean context, The media features are evaluated to `0` or `1` rather than greater than / lesser than. So, there is no need for range prefixes. In simple terms, Attempting to evaluate a min/max prefixed media feature in a boolean context is invalid and a syntax error.
 
 ### A brand new syntax for range media features
 
@@ -147,9 +161,11 @@ or
 (790px <= width)
 ```
 
-Above two new syntax will be equal to `(min-width: 790px)`. The base form of range media features new syntax is **feature name, a comparison operator and then value**.
+Above two new syntax will be equal to `(min-width: 790px)`. The base form of range media features new syntax is **feature name, a comparison operator, and then value**.
 
-![Range media feature new syntax]()
+![Range media feature new syntax](./assets/images/range-media-feature-new-syntax.jpg)
+
+(_The above illustration getting inspired from w3.org_)
 
 let's see a small profound use case for range media features, Define disparate styles if the device matches the screen's viewport width is greater than / equal to 400px and lesser than / equal to 1000px.
 
@@ -171,21 +187,23 @@ We can rewrite the chained media features without using boolean algebra in new r
 (400px <= width <= 1000px)
 ```
 
-Now, You can see how the syntax is getting refactored as simply as possible. Occasionally, Some developers like me in the early stages get confused with `min-` and `max-` like which one is greater than or lesser than? will resolve by the common Mathematical comparison operators that make more sense than the prefixed (`min-`, `max-`) feature name.
+Now, You can see how the syntax is getting refactored as simply as possible. Occasionally, Some developers like me in the early stages get confused with `min-` and `max-` like which one is greater than or lesser than? which gets resolved by the common Mathematical comparison operators that make more sense than the prefixed (`min-`, `max-`) feature name.
+
+### A Modern Use Case
 
 Let's implement the range media feature's new syntax in below modern layout:
 
-![Modern Layout Usecase](./assets/modern-layout.png)
+![Modern Layout Usecase](./assets/images/Preview.jpg)
 
-I followed the Mobile-First approach. I just defined the base or default styles that are common to all breakpoints. Afterward, Start to revamp styles for mobile and tablet breakpoints. In both breakpoints, `header` and `footer` go with flexbox and `main` declared as grid container with a 4-column grid. In `main`, There is some tiny difference between mobile and tablet. You can encounter the difference via the below illustrations:
+I followed the **Mobile-First approach**. I just defined the base or default styles that are common to all breakpoints. Afterward, Start to revamp styles for mobile and tablet breakpoints. In both breakpoints, `header` and `footer` go with flexbox and `main` is declared as a grid container with a 4-column grid. In `main`, There is some tiny difference between mobile and tablet. You can encounter the difference via the below illustrations:
 
-![mobile and tablet layout]()
+![mobile and tablet layout](./assets/images/Mobile-%26-Tab-View.jpg)
 
-Just skip the styles defined in mobile view. Let's move onto Tablet view, The hidden nav list getting displayed as well as `title` in `main` getting increased in `font-size`. Observe the below GIF to see the transformation.
+Just skip the styles defined in mobile view (Because It's always in default styles). Let's move on Tablet view, The hidden nav list getting displayed as well as `title` in the `main` gets increased in `font-size`. Observe the below GIF to see the transformation.
 
-![Tablet layout tranformation gif]()
+![Tablet layout tranformation gif](./assets/gifs/tab-to-mob.gif)
 
-Above changes getting queried when the output device's viewport width is greater than or equal to 768px. This usecase seems range type. let's implement the usecase in range media feature's new syntax:
+The above changes get queried when the output device's viewport width is greater than or equal to 768px. This use case seems to range type. let's implement the use case in the range media feature's new syntax:
 
 ```
 @media screen and (width >= 768px) {
@@ -205,11 +223,17 @@ Above changes getting queried when the output device's viewport width is greater
 }
 ```
 
-![explaination of media query]()
+Take a look at the below illustration for an explanation of media query with the improved syntax:
 
-In laptop and desktop breakpoints, `main` getting adapted to a popular 12-column grid as well as a button displayed and positioned on the image and `title` overlaping on `image`. These changes queried when the device viewport width is greater than or equal to 1000px.
+![explaination of media query](./assets/images/media-query-explaination.jpg)
 
-![laptop and sektop layout tranformation gif]()
+- Media Type - `screen`
+- Media Condition - `screen and (width >= 768px)`
+- Range Media Feature improved syntax - `(width >= 768px)`
+
+In laptop and desktop breakpoints, `main` gets adapted to a popular 12-column grid as well as a button displayed and positioned on the image. `title` gets increased again in `font-size` and overlaps on `image`. These changes are queried when the device viewport width is greater than or equal to 1000px.
+
+![laptop and desktop layout tranformation gif](./assets/gifs/tab-to-desktop.gif)
 
 I'm sure, You derived the media query in mind like below:
 
@@ -245,20 +269,22 @@ I'm sure, You derived the media query in mind like below:
 }
 ```
 
-You can always see the `>=` operator because of Mobile-First approach. It will vary for the context we using. Explore the below codepen for how things getting disparate for every breakpoint:
+![Laptop and Desktop view](./assets/images/Laptop-And-Desktop-View.png)
 
-[CodePen Demo](https://codepen.io/preethi-dev/pen/rNvQPeg)
+You can always see the `>=` operator because of the Mobile-First approach. It will vary for the context we using. Explore the below codepen for a live experience of how things get disparate for every breakpoint:
 
-### New Syntax resolved the nuanced querying issue
+{% CodePen https://codepen.io/preethi-dev/pen/rNvQPeg %}
 
-Beyond the syntactic difference between standard and improved syntax, They are functioning slightly different. As per standard range feature syntax, Using prefixes(`max-`, `min-`) on a feature name is equivalent to using mathematical comparsion operators:
+## New Syntax resolved the nuanced querying issue
+
+Beyond the syntactic difference between standard and improved syntax, They are functioning slightly differently. As per standard range feature syntax, Using prefixes (`max-`, `min-`) on a feature name is equivalent to using mathematical comparison operators:
 
 - Using a `max-` prefix on a feature name is equivalent to using the `<=` operator. For example, `(max-width: 320px)` is equivalent to `(width <= 320px)`.
 - Using a `min-` prefix on a feature name is equivalent to using the `>=` operator. For example, `(min-width: 320px)` is equivalent to `(width >= 320px)`.
 
-_There is no `>` or `<` operators are equivalents to feature name with prefixes._
+_There are no `>` or `<` operators that are equivalents to feature names with prefixes._
 
-Let's take a familier usecase from W3C Spec, Define different styles based on a breakpoint in the viewport width using prefixed range features. Assuming a breakpoint at 320px.
+Let's take a familiar use case from W3C Spec, Define different styles based on a breakpoint in the viewport width using prefixed range features. Assuming a breakpoint at 320px.
 
 ```
 @media (max-width: 320px){ /* styles for viewports <= 320px */ }
@@ -272,7 +298,7 @@ Both media queries evaluate to true at the viewport width is 320px. Based on spe
 @media (min-width: 321px){ /* styles for viewports >= 321px */ }
 ```
 
-While this ensures that the two sets of styles don’t apply simultaneously when the viewport width is 320px. Though, Any viewport widths that fall between 320px and 321px will result in none of the styles being applied. One approach to resolve this issue is to increase the second comparsion scale value (numbers after the decimal point) to 320.01px:
+While this ensures that the two sets of styles don’t apply simultaneously when the viewport width is 320px. Though, Any viewport widths that fall between 320px and 321px will result in none of the styles being applied. One approach to resolve this issue is to increase the second comparison scale value (numbers after the decimal point) to 320.01px:
 
 ```
 @media (max-width: 320px) { /* styles for viewports <= 320px */ }
@@ -288,17 +314,19 @@ However, in these situations, range feature improved new syntax (which are not l
 
 We can define seperate styles for viewport width upto 320px and then from 320px(it may be 320.01px or 320.5px or anything after 320px), we can define disparate styles.
 
-### Browser Compatability
+## Browser Compatability
 
-The new syntax will support in firefox, chrome and edge from firfox 63, chrome 104, edge 104. More browsers starts to support the range media feature new syntax. Check for more support in [caniuse.com](https://caniuse.com/css-media-range-syntax).
-According to the spec, This improved syntax is new to Level 4 of Mediaqueries, and thus is not as widely supported at the moment as the `min-`/`max-` prefixes.
+The new syntax will support in firefox, chrome, and edge from firefox 63, chrome 104, and edge 104. More browsers starts to support the range media feature new syntax. Check for more support in [caniuse.com](https://caniuse.com/css-media-range-syntax).
+According to the spec, This improved syntax is new to Level 4 of Media queries and thus is not as widely supported at the moment as the `min-`/`max-` prefixes.
 
-### Wrapping Up
+## Wrapping Up
 
-- Media queries constructed with zero or more media feature, optional media condition and optional media types. According to spec, Most of the media types were depreciated. Recommended to use media features than media types.
+- Media queries constructed with zero or more media features, optional media conditions, and optional media types. According to the spec, Most of the media types were depreciated. Recommended to use media features than media types.
 
-- Prefixed(`min-`, `max-`) range media feature is equivalent to mathematical operators like `min-` is equivalent to `>=`, `max-` is equivalent to `<=` and there is no `>`, `<` operators.
+- Media feature test the specific characteristic or feature of the User Agent or device that the document is being displayed in. Every media feature defines its “type” as either “discrete” or “range” in its definition table.
 
-- New improved syntax was introduced in media query's range media feature. This improved Syntax utilizing the common mathematical comparison operators: `>`, `<`, `>=`, `<=` supports more usecases compared to prefixed(`min-`, `max-`) range media feature. This is not supported as widely as the `min-`/`max-` prefixes.
+- Prefixed (`min-`, `max-`) range media feature is equivalent to mathematical operators like `min-` is equivalent to `>=`, `max-` is equivalent to `<=` and there is no `>`, `<` operators.
 
-- Improved Syntax will fix the nuaunce issues raise in some usecases like both media queries evaluates to true at certain aspect of user agent or output device.
+- New improved syntax was introduced in the media query's range media feature. This improved Syntax utilizing the common mathematical comparison operators: `>`, `<`, `>=`, and `<=` support more use cases compared to the prefixed(`min-`, `max-`) range media feature. This is not supported as widely as the `min-`/`max-` prefixes.
+
+- Improved Syntax will fix the nuance issues raise in some use cases like both media queries evaluates to true at a certain aspect of the user agent or output device.
